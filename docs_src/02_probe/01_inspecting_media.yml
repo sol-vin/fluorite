@@ -3,20 +3,20 @@ title: Deep Media Probing and Inspection
 summary: Extracting container metadata, codecs, stream specs, color spaces, and aspect ratios with ffprobe.
 track: 02_probe
 overview: |
-  Flourite provides a strongly-typed parser and model hierarchy for `ffprobe` JSON output.
+  Fluorite provides a strongly-typed parser and model hierarchy for `ffprobe` JSON output.
   It enables instant inspection of container durations, file sizes, audio/video stream properties,
   framerate fractions, aspect ratios, and metadata tags.
 related_sources:
-  - "src/flourite/probe/models.cr"
-  - "src/flourite/probe/runner.cr"
+  - "src/fluorite/probe/models.cr"
+  - "src/fluorite/probe/runner.cr"
 sections:
   - id: probing_files
     title: Probing Media Files
-    summary: Using Flourite.probe to retrieve structured media info.
+    summary: Using Fluorite.probe to retrieve structured media info.
     content: |
-      Inspect any local file or network stream with `Flourite.probe`:
+      Inspect any local file or network stream with `Fluorite.probe`:
       ```crystal
-      info = Flourite.probe("gameplay.mkv")
+      info = Fluorite.probe("gameplay.mkv")
 
       puts "Format:   #{info.format_name} (#{info.human_size})"
       puts "Duration: #{info.duration_formatted}"

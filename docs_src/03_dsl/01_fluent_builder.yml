@@ -3,19 +3,19 @@ title: Fluent Block and Chainable DSL
 summary: Authoring expressive FFmpeg pipelines using block-scoped and chainable Crystal builders.
 track: 03_dsl
 overview: |
-  Flourite replaces complex argument arrays and shell concatenations with a type-safe, fluent Crystal DSL.
-  The DSL supports both lexical block structures (`Flourite.build do ... end`) and chainable builders (`Flourite.input(...)`).
+  Fluorite replaces complex argument arrays and shell concatenations with a type-safe, fluent Crystal DSL.
+  The DSL supports both lexical block structures (`Fluorite.build do ... end`) and chainable builders (`Fluorite.input(...)`).
 related_sources:
-  - "src/flourite/dsl/builder.cr"
-  - "src/flourite/dsl/command.cr"
-  - "src/flourite/dsl/filter_graph.cr"
+  - "src/fluorite/dsl/builder.cr"
+  - "src/fluorite/dsl/command.cr"
+  - "src/fluorite/dsl/filter_graph.cr"
 sections:
   - id: block_dsl
     title: Block-Scoped DSL
     summary: Building pipelines with scoped video, audio, and filter blocks.
     content: |
       ```crystal
-      cmd = Flourite.build do
+      cmd = Fluorite.build do
         overwrite!
         hwaccel :cuda # Enables NVIDIA hardware acceleration if available
 
@@ -50,11 +50,11 @@ sections:
     content: |
       Use the built-in filter helpers for scaling, cropping, text drawing, and volume adjustments:
       ```crystal
-      cmd = Flourite.build do
+      cmd = Fluorite.build do
         input("video.mp4")
         filter do
           crop 1280, 720, x: 0, y: 0
-          drawtext text: "Flourite Watermark", fontsize: 24, fontcolor: "white@0.8", x: 10, y: 10
+          drawtext text: "Fluorite Watermark", fontsize: 24, fontcolor: "white@0.8", x: 10, y: 10
           loudnorm i: -24.0, lra: 7.0 # Broadcast standard loudness normalization
         end
         output("out.mp4")

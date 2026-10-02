@@ -44,12 +44,12 @@ jobs:
       - name: Run Test Specifications
         run: crystal spec --error-trace
 
-      - name: Build Flourite Binary
+      - name: Build Fluorite Binary
         run: |
           mkdir -p bin
-          crystal build src/flourite_cli.cr -o bin/flourite --release --no-debug
+          crystal build src/fluorite_cli.cr -o bin/fluorite --release --no-debug
 
-      - name: Test Flourite CLI Execution
+      - name: Test Fluorite CLI Execution
         run: |
-          ./bin/flourite version
-          ./bin/flourite help
+          ./bin/fluorite version
+          ./bin/fluorite help

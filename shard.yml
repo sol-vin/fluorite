@@ -1,5 +1,5 @@
-name: flourite
-version: 0.1.4
+name: fluorite
+version: 0.1.5
 
 authors:
   - sol-vin <ian@sol-vin.com>
@@ -22,7 +22,7 @@ dependencies:
     branch: main
 
 targets:
-  flourite:
-    main: src/flourite_cli.cr
+  fluorite:
+    main: src/fluorite_cli.cr
 
 crystal: ">= 1.10.0"

@@ -41,9 +41,9 @@ SAMPLE_FFPROBE_JSON = <<-JSON
 }
 JSON
 
-describe Flourite::Probe do
+describe Fluorite::Probe do
   it "parses ffprobe JSON output accurately" do
-    result = Flourite::Probe::ProbeResult.from_json(SAMPLE_FFPROBE_JSON)
+    result = Fluorite::Probe::ProbeResult.from_json(SAMPLE_FFPROBE_JSON)
 
     result.format_name.should eq("mov,mp4,m4a,3gp,3g2,mj2")
     result.format.size_bytes.should eq(70_000_000_i64)

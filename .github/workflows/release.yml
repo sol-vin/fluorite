@@ -49,7 +49,7 @@ jobs:
           fi
 
           echo "tag_name=$TAG" >> "$GITHUB_OUTPUT"
-          echo "release_title=Flourite $TAG" >> "$GITHUB_OUTPUT"
+          echo "release_title=Fluorite $TAG" >> "$GITHUB_OUTPUT"
           echo "Resolved Tag: $TAG"
           echo "Resolved Shard Version: $SHARD_VER"
 
@@ -62,15 +62,15 @@ jobs:
         include:
           - target: linux-x86_64
             os: ubuntu-latest
-            archive_name: flourite-linux-x86_64.tar.gz
+            archive_name: fluorite-linux-x86_64.tar.gz
             is_windows: false
           - target: windows-x86_64
             os: windows-latest
-            archive_name: flourite-windows-x86_64.zip
+            archive_name: fluorite-windows-x86_64.zip
             is_windows: true
           - target: darwin-arm64
             os: macos-latest
-            archive_name: flourite-darwin-arm64.tar.gz
+            archive_name: fluorite-darwin-arm64.tar.gz
             is_windows: false
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
@@ -95,9 +95,9 @@ jobs:
         run: |
           shards install --ignore-crystal-version
           mkdir -p bin stage
-          crystal build src/flourite_cli.cr -o bin/flourite --release --no-debug
-          chmod +x bin/flourite
-          cp bin/flourite stage/
+          crystal build src/fluorite_cli.cr -o bin/fluorite --release --no-debug
+          chmod +x bin/fluorite
+          cp bin/fluorite stage/
           cp README.md LICENSE stage/
           tar -czf ${{ matrix.archive_name }} -C stage .
           ls -lh ${{ matrix.archive_name }}
@@ -108,8 +108,8 @@ jobs:
         run: |
           shards install --ignore-crystal-version
           New-Item -ItemType Directory -Path "bin", "stage" -Force
-          crystal build src/flourite_cli.cr -o bin/flourite.exe --release --no-debug
-          Copy-Item bin/flourite.exe, README.md, LICENSE -Destination stage
+          crystal build src/fluorite_cli.cr -o bin/fluorite.exe --release --no-debug
+          Copy-Item bin/fluorite.exe, README.md, LICENSE -Destination stage
           Compress-Archive -Path "stage/*" -DestinationPath ${{ matrix.archive_name }} -Force
           Get-Item ${{ matrix.archive_name }} | Select-Object Name, Length
 
@@ -146,7 +146,7 @@ jobs:
           VER="${{ needs.init-release.outputs.version }}"
 
           cat << 'EOF' > release_body.md
-          ## 🎬 Flourite __TAG__
+          ## 🎬 Fluorite __TAG__
 
           Modern, high-performance **FFmpeg** bindings, fluent DSL, real-time streaming process wrapper, smart conversion presets, and full-screen terminal UI (TUI) for Crystal.
 
@@ -154,29 +154,29 @@ jobs:
 
           | Platform | Architecture | Archive | Format |
           | :--- | :--- | :--- | :--- |
-          | 🐧 **Linux** | `x86_64` | `flourite-linux-x86_64.tar.gz` | `.tar.gz` |
-          | 🪟 **Windows** | `x86_64` | `flourite-windows-x86_64.zip` | `.zip` |
-          | 🍎 **macOS** | `Apple Silicon (arm64)` | `flourite-darwin-arm64.tar.gz` | `.tar.gz` |
+          | 🐧 **Linux** | `x86_64` | `fluorite-linux-x86_64.tar.gz` | `.tar.gz` |
+          | 🪟 **Windows** | `x86_64` | `fluorite-windows-x86_64.zip` | `.zip` |
+          | 🍎 **macOS** | `Apple Silicon (arm64)` | `fluorite-darwin-arm64.tar.gz` | `.tar.gz` |
           | 🔒 **Integrity** | All | `checksums.txt` | SHA-256 |
 
           ### 🚀 Quick Start
 
           ```bash
           # Verify installation & detected hardware acceleration (NVENC, QSV, AMF)
-          flourite version
+          fluorite version
 
           # Launch interactive terminal UI (media browser, inspector & transcoder)
-          flourite tui
+          fluorite tui
 
           # Interactive conversion wizard
-          flourite wizard
+          fluorite wizard
 
           # Direct command-line conversion presets
-          flourite discord input.mp4 -o shared.mp4
-          flourite gif recording.mov -o animated.gif --fps 24 --scale 640:-1
-          flourite web capture.mkv -o stream.mp4
-          flourite audio podcast.wav -o podcast.mp3 -b 320k
-          flourite trim video.mp4 -s 00:00:10 -t 00:00:30 -o clip.mp4
+          fluorite discord input.mp4 -o shared.mp4
+          fluorite gif recording.mov -o animated.gif --fps 24 --scale 640:-1
+          fluorite web capture.mkv -o stream.mp4
+          fluorite audio podcast.wav -o podcast.mp3 -b 320k
+          fluorite trim video.mp4 -s 00:00:10 -t 00:00:30 -o clip.mp4
           ```
 
           ### 🔒 Checksums (SHA-256)
@@ -212,7 +212,7 @@ jobs:
         shell: bash
         run: |
           if [ -n "$GITHUB_STEP_SUMMARY" ]; then
-            echo "## 🚀 Flourite ${{ needs.init-release.outputs.tag_name }} Release Published" >> "$GITHUB_STEP_SUMMARY"
+            echo "## 🚀 Fluorite ${{ needs.init-release.outputs.tag_name }} Release Published" >> "$GITHUB_STEP_SUMMARY"
             echo "" >> "$GITHUB_STEP_SUMMARY"
             echo "### 📦 Release Assets" >> "$GITHUB_STEP_SUMMARY"
             echo "| Asset Name | Size | SHA-256 |" >> "$GITHUB_STEP_SUMMARY"

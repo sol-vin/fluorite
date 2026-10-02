@@ -1,8 +1,8 @@
 require "./spec_helper"
 
-describe Flourite::DSL do
+describe Fluorite::DSL do
   it "builds command with block syntax" do
-    cmd = Flourite.build do
+    cmd = Fluorite.build do
       overwrite!
       threads 4
       hwaccel :cuda
@@ -56,7 +56,7 @@ describe Flourite::DSL do
   end
 
   it "builds command with chainable syntax" do
-    builder = Flourite.input("source.mkv")
+    builder = Fluorite.input("source.mkv")
       .video_codec(:h264)
       .crf(22)
       .scale(1920, 1080)

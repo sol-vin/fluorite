@@ -1,4 +1,4 @@
-# Flourite 🎬💎
+# Fluorite 🎬💎
 
 [![Crystal](https://img.shields.io/badge/crystal-%3E%3D1.10.0-black.svg)](https://crystal-lang.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -8,7 +8,7 @@
 
 > **Next-generation FFMPEG bindings, fluent Crystal DSL, asynchronous streaming process wrapper, smart conversion presets, and full-screen Opal terminal UI.**
 
-Flourite turns complex, arcane `ffmpeg` and `ffprobe` command strings into elegant, type-safe, and self-documenting Crystal code. Whether you need a 1-line Discord video compressor that is mathematically guaranteed to fit under upload limits, an interactive full-screen TUI to batch transcode media, a microsecond-accurate real-time progress streamer, or low-level C FFI access, Flourite delivers the ultimate developer experience.
+Fluorite turns complex, arcane `ffmpeg` and `ffprobe` command strings into elegant, type-safe, and self-documenting Crystal code. Whether you need a 1-line Discord video compressor that is mathematically guaranteed to fit under upload limits, an interactive full-screen TUI to batch transcode media, a microsecond-accurate real-time progress streamer, or low-level C FFI access, Fluorite delivers the ultimate developer experience.
 
 ---
 
@@ -23,22 +23,22 @@ Flourite turns complex, arcane `ffmpeg` and `ffprobe` command strings into elega
   - **Instant Stream Copy Trim**: Lossless cutting in milliseconds (`-c copy`) without re-encoding.
   - **Audio Extraction**: Direct conversion to MP3 (VBR/CBR), Opus, AAC, or lossless FLAC.
   - **Hardware Acceleration**: Automatic GPU detection and mapping for NVIDIA NVENC (`h264_nvenc`, `hevc_nvenc`, `av1_nvenc`), Intel QSV, AMD AMF, and Apple VideoToolbox.
-- **Deep Media Probing (`Flourite::Probe`)**: Type-safe parser for `ffprobe` JSON, providing structured containers, audio/video stream specs, framerates, color spaces, aspect ratios, and tags.
-- **Interactive Opal Terminal UI (`flourite tui`)**: Full-screen workspace built on `sol-vin/opal` featuring file browsing, media inspector cards, preset launcher, live Unicode progress gauges, FPS sparklines, and raw command preview.
-- **CLI & Interactive Wizard (`flourite wizard`)**: Beautiful colorized terminal utilities and step-by-step interactive configuration.
-- **Low-Level C FFI Bindings (`Flourite::C` / `LibAV`)**: Native declarations for `libavcodec`, `libavformat`, and `libavutil`.
+- **Deep Media Probing (`Fluorite::Probe`)**: Type-safe parser for `ffprobe` JSON, providing structured containers, audio/video stream specs, framerates, color spaces, aspect ratios, and tags.
+- **Interactive Opal Terminal UI (`fluorite tui`)**: Full-screen workspace built on `sol-vin/opal` featuring file browsing, media inspector cards, preset launcher, live Unicode progress gauges, FPS sparklines, and raw command preview.
+- **CLI & Interactive Wizard (`fluorite wizard`)**: Beautiful colorized terminal utilities and step-by-step interactive configuration.
+- **Low-Level C FFI Bindings (`Fluorite::C` / `LibAV`)**: Native declarations for `libavcodec`, `libavformat`, and `libavutil`.
 - **Integrated Tooling**: Automated commit-based versioning via `sol-vin/carbon` and multi-track documentation via `sol-vin/jasper`.
 
 ---
 
 ## 🚀 Installation
 
-Add `flourite` to your `shard.yml`:
+Add `fluorite` to your `shard.yml`:
 
 ```yaml
 dependencies:
-  flourite:
-    github: sol-vin/flourite
+  fluorite:
+    github: sol-vin/fluorite
     branch: main
 ```
 
@@ -53,9 +53,9 @@ Run `shards install`.
 ### 1. Fluent Block DSL
 
 ```crystal
-require "flourite"
+require "fluorite"
 
-cmd = Flourite.build do
+cmd = Fluorite.build do
   # Global options
   overwrite!
   threads 0
@@ -85,7 +85,7 @@ cmd = Flourite.build do
 
   # Filter graph
   filter do
-    drawtext text: "Recorded with Flourite", fontsize: 24, fontcolor: "white@0.8", x: 20, y: 20
+    drawtext text: "Recorded with Fluorite", fontsize: 24, fontcolor: "white@0.8", x: 20, y: 20
   end
 
   # Output destination
@@ -105,9 +105,9 @@ puts "\nDone! Saved to highlight.mp4"
 ### 2. Chainable Fluent Syntax
 
 ```crystal
-require "flourite"
+require "fluorite"
 
-Flourite.input("raw.mov")
+Fluorite.input("raw.mov")
   .video_codec(:h264)
   .crf(22)
   .scale(1280, 720)
@@ -116,10 +116,10 @@ Flourite.input("raw.mov")
   .run
 ```
 
-### 3. Deep Media Inspection (`Flourite::Probe`)
+### 3. Deep Media Inspection (`Fluorite::Probe`)
 
 ```crystal
-info = Flourite.probe("movie.mkv")
+info = Fluorite.probe("movie.mkv")
 
 puts "Format:   #{info.format_name}"
 puts "Duration: #{info.duration_formatted} (#{info.duration.total_seconds}s)"
@@ -132,30 +132,30 @@ puts "Audio:    #{info.audio_summary}" # e.g. "AAC 2.0 @ 192 kbps, 48000 Hz"
 
 ```crystal
 # 1. Discord 25MB Fit (auto bit budgeting)
-Flourite::Presets::Discord.convert("long_recording.mp4", "discord_upload.mp4", target_mb: 25)
+Fluorite::Presets::Discord.convert("long_recording.mp4", "discord_upload.mp4", target_mb: 25)
 
 # 2. High-Quality 2-Pass Palette GIF
-Flourite::Presets::Gif.convert("clip.mov", "preview.gif", fps: 15, width: 480)
+Fluorite::Presets::Gif.convert("clip.mov", "preview.gif", fps: 15, width: 480)
 
 # 3. Web-Optimized FastStart MP4
-Flourite::Presets::Web.convert("source.avi", "streamable.mp4")
+Fluorite::Presets::Web.convert("source.avi", "streamable.mp4")
 
 # 4. Extract High-Quality Audio
-Flourite::Presets::Audio.extract("concert.mkv", "track.mp3", format: :mp3, bitrate: "320k")
+Fluorite::Presets::Audio.extract("concert.mkv", "track.mp3", format: :mp3, bitrate: "320k")
 
 # 5. Millisecond Stream-Copy Trim (no re-encoding!)
-Flourite::Presets::Trim.cut("movie.mp4", "clip.mp4", from: "00:01:30", to: "00:02:15")
+Fluorite::Presets::Trim.cut("movie.mp4", "clip.mp4", from: "00:01:30", to: "00:02:15")
 ```
 
 ---
 
 ## 🖥️ Interactive Terminal UI (TUI)
 
-Flourite includes a full-screen, reactive terminal application powered by **Opal**:
+Fluorite includes a full-screen, reactive terminal application powered by **Opal**:
 
 ```bash
 # Launch full-screen interactive TUI
-flourite tui
+fluorite tui
 ```
 
 ### TUI Highlights:
@@ -169,36 +169,36 @@ flourite tui
 
 ## 💻 CLI Commands
 
-Flourite also acts as a standalone terminal powerhouse:
+Fluorite also acts as a standalone terminal powerhouse:
 
 ```bash
 # Interactive TUI
-flourite tui
+fluorite tui
 
 # Interactive step-by-step CLI setup wizard
-flourite wizard
+fluorite wizard
 
 # Beautiful colorized media inspection table
-flourite probe video.mp4
+fluorite probe video.mp4
 
 # Compress for Discord (10MB / 25MB / 50MB)
-flourite discord video.mp4 --limit 25MB
+fluorite discord video.mp4 --limit 25MB
 
 # Convert to crisp high-definition GIF
-flourite gif animation.mov --fps 15 --width 480
+fluorite gif animation.mov --fps 15 --width 480
 
 # Ultra-fast lossless cut
-flourite trim video.mp4 --from 00:01:00 --to 00:01:45 -o clip.mp4
+fluorite trim video.mp4 --from 00:01:00 --to 00:01:45 -o clip.mp4
 
 # Extract audio track
-flourite audio podcast.mp4 --format opus -o podcast.opus
+fluorite audio podcast.mp4 --format opus -o podcast.opus
 ```
 
 ---
 
 ## 📚 Documentation (Jasper)
 
-Flourite's documentation is compiled via `sol-vin/jasper`:
+Fluorite's documentation is compiled via `sol-vin/jasper`:
 
 ```bash
 # Validate guides
@@ -215,7 +215,7 @@ crystal docs
 
 ## ⚡ Versioning (Carbon)
 
-Flourite uses `sol-vin/carbon` for automated commit-based versioning:
+Fluorite uses `sol-vin/carbon` for automated commit-based versioning:
 
 ```bash
 # Audit repository version health

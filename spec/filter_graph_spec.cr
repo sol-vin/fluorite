@@ -1,8 +1,8 @@
 require "./spec_helper"
 
-describe Flourite::DSL::FilterGraph do
+describe Fluorite::DSL::FilterGraph do
   it "builds video filter arguments" do
-    fg = Flourite::DSL::FilterGraph.new
+    fg = Fluorite::DSL::FilterGraph.new
     fg.scale(1280, 720)
     fg.crop(1000, 600, 10, 20)
     fg.hflip
@@ -18,7 +18,7 @@ describe Flourite::DSL::FilterGraph do
   end
 
   it "builds audio filter arguments" do
-    fg = Flourite::DSL::FilterGraph.new
+    fg = Fluorite::DSL::FilterGraph.new
     fg.volume(1.5)
     fg.loudnorm(i: -23.0)
 
@@ -30,7 +30,7 @@ describe Flourite::DSL::FilterGraph do
   end
 
   it "builds 2-pass palette gif filter" do
-    fg = Flourite::DSL::FilterGraph.new
+    fg = Fluorite::DSL::FilterGraph.new
     fg.palette_gif(fps_val: 20, scale_w: 640)
 
     args = fg.to_args

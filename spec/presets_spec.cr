@@ -1,8 +1,8 @@
 require "./spec_helper"
 
-describe Flourite::Presets do
+describe Fluorite::Presets do
   it "builds Web preset command correctly" do
-    cmd = Flourite::Presets::Web.build_command("source.mov", "dest.mp4", crf: 20)
+    cmd = Fluorite::Presets::Web.build_command("source.mov", "dest.mp4", crf: 20)
     args = cmd.to_args
     args.should contain("-c:v")
     args.should contain("libx264")
@@ -15,7 +15,7 @@ describe Flourite::Presets do
   end
 
   it "builds GIF preset command correctly" do
-    cmd = Flourite::Presets::Gif.build_command("clip.mov", "anim.gif", fps: 12, width: 320)
+    cmd = Fluorite::Presets::Gif.build_command("clip.mov", "anim.gif", fps: 12, width: 320)
     args = cmd.to_args
     filter_idx = args.index("-filter_complex").not_nil!
     filter_arg = args[filter_idx + 1]
@@ -26,7 +26,7 @@ describe Flourite::Presets do
   end
 
   it "builds Audio extraction command correctly" do
-    cmd = Flourite::Presets::Audio.build_command("video.mkv", "audio.mp3", format: :mp3, bitrate: "320k")
+    cmd = Fluorite::Presets::Audio.build_command("video.mkv", "audio.mp3", format: :mp3, bitrate: "320k")
     args = cmd.to_args
     args.should contain("-vn")
     args.should contain("-c:a")
@@ -36,7 +36,7 @@ describe Flourite::Presets do
   end
 
   it "builds Trim command correctly" do
-    cmd = Flourite::Presets::Trim.build_command("long.mp4", "short.mp4", from: "00:00:15", to: "00:00:45")
+    cmd = Fluorite::Presets::Trim.build_command("long.mp4", "short.mp4", from: "00:00:15", to: "00:00:45")
     args = cmd.to_args
     args.should contain("-ss")
     args.should contain("00:00:15")

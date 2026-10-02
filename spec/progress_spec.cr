@@ -1,8 +1,8 @@
 require "./spec_helper"
 
-describe Flourite::Runner::Progress do
+describe Fluorite::Runner::Progress do
   it "formats time spans and percentage correctly" do
-    prog = Flourite::Runner::Progress.new(
+    prog = Fluorite::Runner::Progress.new(
       frame: 1500_i64,
       fps: 60.5,
       size_bytes: 15_728_640_i64,
