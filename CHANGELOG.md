@@ -1,4 +1,6 @@
 # FLOURITE CHANGELOG
+## [0.1.4] - 2026-10-01
+---
 ## [0.1.3] - 2026-10-01
 ### 🛠️ Chores & Tooling
 - • Initial commit: Flourite FFMPEG library, fluent DSL, streaming wrapper, smart presets, and Opal TUI (`f1abe40`)

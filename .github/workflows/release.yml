@@ -80,6 +80,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Update apt package index
+        if: runner.os == 'Linux'
+        run: sudo apt-get update
+
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
@@ -135,10 +139,8 @@ jobs:
       - name: Generate Checksums & Release Notes
         shell: bash
         run: |
-          cd dist
-          sha256sum * > checksums.txt
-          cat checksums.txt
-          cd ..
+          (cd dist && sha256sum *.tar.gz *.zip > checksums.txt)
+          cat dist/checksums.txt
 
           TAG="${{ needs.init-release.outputs.tag_name }}"
           VER="${{ needs.init-release.outputs.version }}"
