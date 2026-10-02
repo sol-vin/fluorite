@@ -8,7 +8,7 @@ module Flourite
     @[Link("avformat")]
     lib LibAV
       enum AVMediaType
-        UNKNOWN = -1
+        UNKNOWN    = -1
         VIDEO
         AUDIO
         DATA

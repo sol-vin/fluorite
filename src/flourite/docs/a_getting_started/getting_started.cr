@@ -4,82 +4,82 @@
 # ==============================================================================
 
 {% unless flag?(:release) %}
-module Flourite
-  module Docs
-    module A_GETTING_STARTED
-      # # Getting Started with Flourite
-      #
-      # Flourite is a next-generation Crystal library and developer studio for FFMPEG.
-      # It transforms complex, cryptic FFmpeg command strings into expressive, type-safe, and self-documenting Crystal code.
-      # Flourite includes deep media probing via `ffprobe`, a microsecond-accurate streaming progress runner, smart presets
-      # for Discord video budgeting and high-definition GIFs, and a full-screen reactive terminal UI powered by Opal.
-      #
-      # ### Executive Summary & Key Topics
-      #
-      # <table>
-      #   <thead>
-      #     <tr>
-      #       <th>Topic</th>
-      #       <th>Method / Anchor</th>
-      #       <th>Description</th>
-      #     </tr>
-      #   </thead>
-      #   <tbody>
-      #     <tr>
-      #       <td><strong>Installation</strong></td>
-      #       <td><code>.topic_01_installation</code></td>
-      #       <td>Adding Flourite to your Crystal shard.yml.</td>
-      #     </tr>
-      #     <tr>
-      #       <td><strong>Quickstart Example</strong></td>
-      #       <td><code>.topic_02_quickstart</code></td>
-      #       <td>Converting media with real-time progress callbacks.</td>
-      #     </tr>
-      #   </tbody>
-      # </table>
-      #
-      # ### Related Guides & Source References
-      # - src/flourite.cr
-      # - src/flourite/config.cr
-      # - src/flourite/cli.cr
-      #
-      module GETTING_STARTED
-        # **Installation**: Adding Flourite to your Crystal shard.yml.
+  module Flourite
+    module Docs
+      module A_GETTING_STARTED
+        # # Getting Started with Flourite
         #
-        # Add `flourite` to your project's `shard.yml`:
-        # ```yaml
-        # dependencies:
-        #   flourite:
-        #     github: sol-vin/flourite
-        #     branch: main
-        # ```
-        # Then install dependencies:
-        # ```bash
-        # shards install
-        # ```
+        # Flourite is a next-generation Crystal library and developer studio for FFMPEG.
+        # It transforms complex, cryptic FFmpeg command strings into expressive, type-safe, and self-documenting Crystal code.
+        # Flourite includes deep media probing via `ffprobe`, a microsecond-accurate streaming progress runner, smart presets
+        # for Discord video budgeting and high-definition GIFs, and a full-screen reactive terminal UI powered by Opal.
         #
-        def self.topic_01_installation : Nil; end
+        # ### Executive Summary & Key Topics
+        #
+        # <table>
+        #   <thead>
+        #     <tr>
+        #       <th>Topic</th>
+        #       <th>Method / Anchor</th>
+        #       <th>Description</th>
+        #     </tr>
+        #   </thead>
+        #   <tbody>
+        #     <tr>
+        #       <td><strong>Installation</strong></td>
+        #       <td><code>.topic_01_installation</code></td>
+        #       <td>Adding Flourite to your Crystal shard.yml.</td>
+        #     </tr>
+        #     <tr>
+        #       <td><strong>Quickstart Example</strong></td>
+        #       <td><code>.topic_02_quickstart</code></td>
+        #       <td>Converting media with real-time progress callbacks.</td>
+        #     </tr>
+        #   </tbody>
+        # </table>
+        #
+        # ### Related Guides & Source References
+        # - src/flourite.cr
+        # - src/flourite/config.cr
+        # - src/flourite/cli.cr
+        #
+        module GETTING_STARTED
+          # **Installation**: Adding Flourite to your Crystal shard.yml.
+          #
+          # Add `flourite` to your project's `shard.yml`:
+          # ```yaml
+          # dependencies:
+          #   flourite:
+          #     github: sol-vin/flourite
+          #     branch: main
+          # ```
+          # Then install dependencies:
+          # ```bash
+          # shards install
+          # ```
+          #
+          def self.topic_01_installation : Nil; end
 
-        # **Quickstart Example**: Converting media with real-time progress callbacks.
-        #
-        # Convert any media file with a single call and live terminal progress:
-        # ```crystal
-        # require "flourite"
-        #
-        # Flourite.convert("input.mov")
-        #   .to("output.mp4")
-        #   .video_codec(:h264)
-        #   .crf(22)
-        #   .scale(1280, 720)
-        #   .audio_codec(:aac)
-        #   .run do |p|
-        #     puts "#{p.bar} | #{p.speed_formatted} | ETA: #{p.eta_formatted}"
-        #   end
-        # ```
-        #
-        def self.topic_02_quickstart : Nil; end
+          # **Quickstart Example**: Converting media with real-time progress callbacks.
+          #
+          # Convert any media file with a single call and live terminal progress:
+          # ```
+          # require "flourite"
+          #
+          # Flourite.convert("input.mov")
+          #   .to("output.mp4")
+          #   .video_codec(:h264)
+          #   .crf(22)
+          #   .scale(1280, 720)
+          #   .audio_codec(:aac)
+          #   .run do |p|
+          #     puts "#{p.bar} | #{p.speed_formatted} | ETA: #{p.eta_formatted}"
+          #   end
+          # ```
+          #
+          def self.topic_02_quickstart : Nil; end
+        end
       end
     end
   end
-end
 {% end %}

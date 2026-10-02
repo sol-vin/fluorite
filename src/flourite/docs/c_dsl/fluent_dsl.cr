@@ -4,97 +4,97 @@
 # ==============================================================================
 
 {% unless flag?(:release) %}
-module Flourite
-  module Docs
-    module C_DSL
-      # # Fluent Block and Chainable DSL
-      #
-      # Flourite replaces complex argument arrays and shell concatenations with a type-safe, fluent Crystal DSL.
-      # The DSL supports both lexical block structures (`Flourite.build do ... end`) and chainable builders (`Flourite.input(...)`).
-      #
-      # ### Executive Summary & Key Topics
-      #
-      # <table>
-      #   <thead>
-      #     <tr>
-      #       <th>Topic</th>
-      #       <th>Method / Anchor</th>
-      #       <th>Description</th>
-      #     </tr>
-      #   </thead>
-      #   <tbody>
-      #     <tr>
-      #       <td><strong>Block-Scoped DSL</strong></td>
-      #       <td><code>.topic_01_block_dsl</code></td>
-      #       <td>Building pipelines with scoped video, audio, and filter blocks.</td>
-      #     </tr>
-      #     <tr>
-      #       <td><strong>Filter Graph Construction</strong></td>
-      #       <td><code>.topic_02_filter_graphs</code></td>
-      #       <td>Chaining video and audio filters effortlessly.</td>
-      #     </tr>
-      #   </tbody>
-      # </table>
-      #
-      # ### Related Guides & Source References
-      # - src/flourite/dsl/builder.cr
-      # - src/flourite/dsl/command.cr
-      # - src/flourite/dsl/filter_graph.cr
-      #
-      module FLUENT_DSL
-        # **Block-Scoped DSL**: Building pipelines with scoped video, audio, and filter blocks.
+  module Flourite
+    module Docs
+      module C_DSL
+        # # Fluent Block and Chainable DSL
         #
-        # ```crystal
-        # cmd = Flourite.build do
-        #   overwrite!
-        #   hwaccel :cuda # Enables NVIDIA hardware acceleration if available
+        # Flourite replaces complex argument arrays and shell concatenations with a type-safe, fluent Crystal DSL.
+        # The DSL supports both lexical block structures (`Flourite.build do ... end`) and chainable builders (`Flourite.input(...)`).
         #
-        #   input("source.mov") do
-        #     seek 10.seconds
-        #     duration 45.seconds
-        #   end
+        # ### Executive Summary & Key Topics
         #
-        #   video do
-        #     codec :h264
-        #     crf 19
-        #     preset :slow
-        #     scale 1920, 1080
-        #     fps 60
-        #   end
+        # <table>
+        #   <thead>
+        #     <tr>
+        #       <th>Topic</th>
+        #       <th>Method / Anchor</th>
+        #       <th>Description</th>
+        #     </tr>
+        #   </thead>
+        #   <tbody>
+        #     <tr>
+        #       <td><strong>Block-Scoped DSL</strong></td>
+        #       <td><code>.topic_01_block_dsl</code></td>
+        #       <td>Building pipelines with scoped video, audio, and filter blocks.</td>
+        #     </tr>
+        #     <tr>
+        #       <td><strong>Filter Graph Construction</strong></td>
+        #       <td><code>.topic_02_filter_graphs</code></td>
+        #       <td>Chaining video and audio filters effortlessly.</td>
+        #     </tr>
+        #   </tbody>
+        # </table>
         #
-        #   audio do
-        #     codec :aac
-        #     bitrate "192k"
-        #   end
+        # ### Related Guides & Source References
+        # - src/flourite/dsl/builder.cr
+        # - src/flourite/dsl/command.cr
+        # - src/flourite/dsl/filter_graph.cr
         #
-        #   output("web_master.mp4") do
-        #     faststart!
-        #   end
-        # end
-        #
-        # cmd.run
-        # ```
-        #
-        def self.topic_01_block_dsl : Nil; end
+        module FLUENT_DSL
+          # **Block-Scoped DSL**: Building pipelines with scoped video, audio, and filter blocks.
+          #
+          # ```
+          # cmd = Flourite.build do
+          #   overwrite!
+          #   hwaccel :cuda # Enables NVIDIA hardware acceleration if available
+          #
+          #   input("source.mov") do
+          #     seek 10.seconds
+          #     duration 45.seconds
+          #   end
+          #
+          #   video do
+          #     codec :h264
+          #     crf 19
+          #     preset :slow
+          #     scale 1920, 1080
+          #     fps 60
+          #   end
+          #
+          #   audio do
+          #     codec :aac
+          #     bitrate "192k"
+          #   end
+          #
+          #   output("web_master.mp4") do
+          #     faststart!
+          #   end
+          # end
+          #
+          # cmd.run
+          # ```
+          #
+          def self.topic_01_block_dsl : Nil; end
 
-        # **Filter Graph Construction**: Chaining video and audio filters effortlessly.
-        #
-        # Use the built-in filter helpers for scaling, cropping, text drawing, and volume adjustments:
-        # ```crystal
-        # cmd = Flourite.build do
-        #   input("video.mp4")
-        #   filter do
-        #     crop 1280, 720, x: 0, y: 0
-        #     drawtext text: "Flourite Watermark", fontsize: 24, fontcolor: "white@0.8", x: 10, y: 10
-        #     loudnorm i: -24.0, lra: 7.0 # Broadcast standard loudness normalization
-        #   end
-        #   output("out.mp4")
-        # end
-        # ```
-        #
-        def self.topic_02_filter_graphs : Nil; end
+          # **Filter Graph Construction**: Chaining video and audio filters effortlessly.
+          #
+          # Use the built-in filter helpers for scaling, cropping, text drawing, and volume adjustments:
+          # ```
+          # cmd = Flourite.build do
+          #   input("video.mp4")
+          #   filter do
+          #     crop 1280, 720, x: 0, y: 0
+          #     drawtext text: "Flourite Watermark", fontsize: 24, fontcolor: "white@0.8", x: 10, y: 10
+          #     loudnorm i: -24.0, lra: 7.0 # Broadcast standard loudness normalization
+          #   end
+          #   output("out.mp4")
+          # end
+          # ```
+          #
+          def self.topic_02_filter_graphs : Nil; end
+        end
       end
     end
   end
-end
 {% end %}

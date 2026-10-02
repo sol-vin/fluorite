@@ -386,12 +386,12 @@ module Flourite
 
       base_name = File.basename(chosen_file, File.extname(chosen_file))
       default_out = case goal
-                    when .starts_with?("Discord Fit")  then "#{base_name}_discord25.mp4"
-                    when .starts_with?("Discord Free") then "#{base_name}_discord10.mp4"
-                    when .starts_with?("FastWeb")      then "#{base_name}_web.mp4"
-                    when .starts_with?("High Quality") then "#{base_name}.gif"
+                    when .starts_with?("Discord Fit")        then "#{base_name}_discord25.mp4"
+                    when .starts_with?("Discord Free")       then "#{base_name}_discord10.mp4"
+                    when .starts_with?("FastWeb")            then "#{base_name}_web.mp4"
+                    when .starts_with?("High Quality")       then "#{base_name}.gif"
                     when .starts_with?("Extract Audio (MP3") then "#{base_name}.mp3"
-                    else "#{base_name}.opus"
+                    else                                          "#{base_name}.opus"
                     end
 
       out_file = Opal.ask("Destination output path", default: default_out)

@@ -74,7 +74,7 @@ module Flourite
         x : String | Int32 = 10,
         y : String | Int32 = 10,
         box : Bool = false,
-        boxcolor : String = "black@0.5"
+        boxcolor : String = "black@0.5",
       ) : self
         # Escape text for ffmpeg drawtext
         escaped_text = text.gsub("'", "\\'").gsub(":", "\\:")

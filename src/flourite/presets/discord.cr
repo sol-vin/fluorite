@@ -20,7 +20,7 @@ module Flourite
         input_path : String,
         output_path : String,
         target_mb : Float64 = 24.5,
-        hwaccel : Symbol? = nil
+        hwaccel : Symbol? = nil,
       ) : Process::Status
         cmd = build_command(input_path, output_path, target_mb, hwaccel)
         cmd.run
@@ -31,7 +31,7 @@ module Flourite
         input_path : String,
         output_path : String,
         target_mb : Float64 = 24.5,
-        hwaccel : Symbol? = nil
+        hwaccel : Symbol? = nil,
       ) : DSL::Command
         info = Flourite.probe(input_path)
         duration_sec = info.duration.total_seconds

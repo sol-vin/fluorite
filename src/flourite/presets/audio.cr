@@ -19,7 +19,7 @@ module Flourite
         input_path : String,
         output_path : String,
         format : Symbol = :mp3,
-        bitrate : String = "320k"
+        bitrate : String = "320k",
       ) : Process::Status
         cmd = build_command(input_path, output_path, format, bitrate)
         cmd.run
@@ -29,7 +29,7 @@ module Flourite
         input_path : String,
         output_path : String,
         format : Symbol = :mp3,
-        bitrate : String = "320k"
+        bitrate : String = "320k",
       ) : DSL::Command
         Flourite.build do
           overwrite!

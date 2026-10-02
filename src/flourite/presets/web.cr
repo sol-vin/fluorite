@@ -18,7 +18,7 @@ module Flourite
         input_path : String,
         output_path : String,
         crf : Int32 = 22,
-        preset : Symbol = :medium
+        preset : Symbol = :medium,
       ) : Process::Status
         cmd = build_command(input_path, output_path, crf, preset)
         cmd.run
@@ -28,7 +28,7 @@ module Flourite
         input_path : String,
         output_path : String,
         crf : Int32 = 22,
-        preset : Symbol = :medium
+        preset : Symbol = :medium,
       ) : DSL::Command
         Flourite.build do
           overwrite!

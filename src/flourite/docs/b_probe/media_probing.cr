@@ -4,70 +4,70 @@
 # ==============================================================================
 
 {% unless flag?(:release) %}
-module Flourite
-  module Docs
-    module B_PROBE
-      # # Deep Media Probing and Inspection
-      #
-      # Flourite provides a strongly-typed parser and model hierarchy for `ffprobe` JSON output.
-      # It enables instant inspection of container durations, file sizes, audio/video stream properties,
-      # framerate fractions, aspect ratios, and metadata tags.
-      #
-      # ### Executive Summary & Key Topics
-      #
-      # <table>
-      #   <thead>
-      #     <tr>
-      #       <th>Topic</th>
-      #       <th>Method / Anchor</th>
-      #       <th>Description</th>
-      #     </tr>
-      #   </thead>
-      #   <tbody>
-      #     <tr>
-      #       <td><strong>Probing Media Files</strong></td>
-      #       <td><code>.topic_01_probing_files</code></td>
-      #       <td>Using Flourite.probe to retrieve structured media info.</td>
-      #     </tr>
-      #     <tr>
-      #       <td><strong>Stream Analysis</strong></td>
-      #       <td><code>.topic_02_stream_analysis</code></td>
-      #       <td>Querying individual video and audio streams.</td>
-      #     </tr>
-      #   </tbody>
-      # </table>
-      #
-      # ### Related Guides & Source References
-      # - src/flourite/probe/models.cr
-      # - src/flourite/probe/runner.cr
-      #
-      module MEDIA_PROBING
-        # **Probing Media Files**: Using Flourite.probe to retrieve structured media info.
+  module Flourite
+    module Docs
+      module B_PROBE
+        # # Deep Media Probing and Inspection
         #
-        # Inspect any local file or network stream with `Flourite.probe`:
-        # ```crystal
-        # info = Flourite.probe("gameplay.mkv")
+        # Flourite provides a strongly-typed parser and model hierarchy for `ffprobe` JSON output.
+        # It enables instant inspection of container durations, file sizes, audio/video stream properties,
+        # framerate fractions, aspect ratios, and metadata tags.
         #
-        # puts "Format:   #{info.format_name} (#{info.human_size})"
-        # puts "Duration: #{info.duration_formatted}"
-        # puts "Video:    #{info.video_summary}" # e.g. "H.264 1920x1080 @ 60.0 fps (yuv420p)"
-        # puts "Audio:    #{info.audio_summary}" # e.g. "AAC 2.0 @ 192 kbps, 48000 Hz"
-        # ```
+        # ### Executive Summary & Key Topics
         #
-        def self.topic_01_probing_files : Nil; end
+        # <table>
+        #   <thead>
+        #     <tr>
+        #       <th>Topic</th>
+        #       <th>Method / Anchor</th>
+        #       <th>Description</th>
+        #     </tr>
+        #   </thead>
+        #   <tbody>
+        #     <tr>
+        #       <td><strong>Probing Media Files</strong></td>
+        #       <td><code>.topic_01_probing_files</code></td>
+        #       <td>Using Flourite.probe to retrieve structured media info.</td>
+        #     </tr>
+        #     <tr>
+        #       <td><strong>Stream Analysis</strong></td>
+        #       <td><code>.topic_02_stream_analysis</code></td>
+        #       <td>Querying individual video and audio streams.</td>
+        #     </tr>
+        #   </tbody>
+        # </table>
+        #
+        # ### Related Guides & Source References
+        # - src/flourite/probe/models.cr
+        # - src/flourite/probe/runner.cr
+        #
+        module MEDIA_PROBING
+          # **Probing Media Files**: Using Flourite.probe to retrieve structured media info.
+          #
+          # Inspect any local file or network stream with `Flourite.probe`:
+          # ```
+          # info = Flourite.probe("gameplay.mkv")
+          #
+          # puts "Format:   #{info.format_name} (#{info.human_size})"
+          # puts "Duration: #{info.duration_formatted}"
+          # puts "Video:    #{info.video_summary}" # e.g. "H.264 1920x1080 @ 60.0 fps (yuv420p)"
+          # puts "Audio:    #{info.audio_summary}" # e.g. "AAC 2.0 @ 192 kbps, 48000 Hz"
+          # ```
+          #
+          def self.topic_01_probing_files : Nil; end
 
-        # **Stream Analysis**: Querying individual video and audio streams.
-        #
-        # You can filter and query multiple audio or video tracks:
-        # ```crystal
-        # info.audio_streams.each_with_index do |track, idx|
-        #   puts "Track ##{idx + 1}: #{track.codec_name} #{track.channels} channels (#{track.sample_rate} Hz)"
-        # end
-        # ```
-        #
-        def self.topic_02_stream_analysis : Nil; end
+          # **Stream Analysis**: Querying individual video and audio streams.
+          #
+          # You can filter and query multiple audio or video tracks:
+          # ```
+          # info.audio_streams.each_with_index do |track, idx|
+          #   puts "Track ##{idx + 1}: #{track.codec_name} #{track.channels} channels (#{track.sample_rate} Hz)"
+          # end
+          # ```
+          #
+          def self.topic_02_stream_analysis : Nil; end
+        end
       end
     end
   end
-end
 {% end %}

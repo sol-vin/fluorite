@@ -22,7 +22,7 @@ module Flourite
         fps : Int32 = 15,
         width : Int32 = 480,
         seek : (String | Time::Span)? = nil,
-        duration : (String | Time::Span)? = nil
+        duration : (String | Time::Span)? = nil,
       ) : Process::Status
         cmd = build_command(input_path, output_path, fps, width, seek, duration)
         cmd.run
@@ -34,7 +34,7 @@ module Flourite
         fps : Int32 = 15,
         width : Int32 = 480,
         seek : (String | Time::Span)? = nil,
-        duration : (String | Time::Span)? = nil
+        duration : (String | Time::Span)? = nil,
       ) : DSL::Command
         Flourite.build do
           overwrite!

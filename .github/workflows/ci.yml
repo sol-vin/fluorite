@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    name: Test & Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update apt package index
+        run: sudo apt-get update
+
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+
+      - name: Ensure FFmpeg & FFprobe
+        run: |
+          if ! command -v ffmpeg &> /dev/null; then
+            sudo apt-get install -y ffmpeg
+          fi
+          ffmpeg -version
+          ffprobe -version
+
+      - name: Install Shards
+        run: shards install --ignore-crystal-version
+
+      - name: Check Formatting
+        run: crystal tool format --check
+
+      - name: Validate Jasper Documentation
+        run: crystal run lib/jasper/src/jasper_cli.cr -- validate
+
+      - name: Run Test Specifications
+        run: crystal spec --error-trace
+
+      - name: Build Flourite Binary
+        run: |
+          mkdir -p bin
+          crystal build src/flourite_cli.cr -o bin/flourite --release --no-debug
+
+      - name: Test Flourite CLI Execution
+        run: |
+          ./bin/flourite version
+          ./bin/flourite help

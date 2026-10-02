@@ -52,7 +52,7 @@ module Flourite
         @channels : Int32? = nil,
         @channel_layout : String? = nil,
         @bits_per_sample : Int32? = nil,
-        @tags : Hash(String, String)? = nil
+        @tags : Hash(String, String)? = nil,
       )
       end
 
@@ -169,7 +169,7 @@ module Flourite
         @size : String? = nil,
         @bit_rate : String? = nil,
         @probe_score : Int32? = nil,
-        @tags : Hash(String, String)? = nil
+        @tags : Hash(String, String)? = nil,
       )
       end
 
@@ -217,7 +217,7 @@ module Flourite
         @start : Int64 = 0,
         @start_time : String? = nil,
         @end_time : String? = nil,
-        @tags : Hash(String, String)? = nil
+        @tags : Hash(String, String)? = nil,
       )
       end
 
@@ -236,7 +236,7 @@ module Flourite
       def initialize(
         @streams : Array(Stream) = [] of Stream,
         @format : Format = Format.new,
-        @chapters : Array(Chapter) = [] of Chapter
+        @chapters : Array(Chapter) = [] of Chapter,
       )
       end
 

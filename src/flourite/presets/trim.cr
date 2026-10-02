@@ -9,7 +9,7 @@ module Flourite
         output_path : String,
         from : String | Time::Span,
         to : (String | Time::Span)? = nil,
-        duration : (String | Time::Span)? = nil
+        duration : (String | Time::Span)? = nil,
       ) : Process::Status
         cmd = build_command(input_path, output_path, from, to, duration)
         cmd.run
@@ -20,7 +20,7 @@ module Flourite
         output_path : String,
         from : String | Time::Span,
         to : (String | Time::Span)? = nil,
-        duration : (String | Time::Span)? = nil
+        duration : (String | Time::Span)? = nil,
       ) : DSL::Command
         Flourite.build do
           overwrite!
@@ -48,7 +48,7 @@ module Flourite
         input_path : String,
         output_path : String,
         at : String | Time::Span = "00:00:01",
-        width : Int32? = nil
+        width : Int32? = nil,
       ) : Process::Status
         cmd = build_command(input_path, output_path, at, width)
         cmd.run
@@ -58,7 +58,7 @@ module Flourite
         input_path : String,
         output_path : String,
         at : String | Time::Span = "00:00:01",
-        width : Int32? = nil
+        width : Int32? = nil,
       ) : DSL::Command
         Flourite.build do
           overwrite!
