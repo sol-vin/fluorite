@@ -1,0 +1,26 @@
+# Crystal artifacts
+/bin/
+/lib/
+/shard.lock
+*.dwarf
+*.pdb
+*.exe
+*.o
+*.a
+
+# Testing / Scratch
+/tmp/
+/scratch/
+*.test.mp4
+*.test.mkv
+*.test.gif
+*.test.mp3
+
+# Docs
+/docs/
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,38 @@
+---
+settings:
+  title: FLOURITE CHANGELOG
+  output_file: CHANGELOG.md
+  categories:
+    breaking:
+      title: "\U0001F4A5 Breaking Changes"
+      bullet: ▲
+    features:
+      title: ✨ Features & Improvements
+      bullet: ✦
+    fixes:
+      title: "\U0001F41B Bug Fixes"
+      bullet: ✓
+    perf:
+      title: ⚡ Performance Optimizations
+      bullet: "\U0001F680"
+    docs:
+      title: "\U0001F4DA Documentation"
+      bullet: "\U0001F4D6"
+    maintenance:
+      title: "\U0001F6E0️ Chores & Tooling"
+      bullet: •
+releases:
+- version: 0.1.1
+  date: "2026-10-01"
+  status: active
+  entries: []
+- version: 0.1.0
+  date: "2026-10-01"
+  status: released
+  entries:
+  - type: feat
+    description: Initial release of Flourite - modern FFMPEG bindings, fluent DSL,
+      streaming wrapper, smart presets, and interactive Opal TUI
+    bullet: ✦
+    badge: '[CORE]'
+    author: Ian Rash

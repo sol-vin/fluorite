@@ -1,0 +1,41 @@
+id: CONVERSION_PRESETS
+title: Smart Conversion Presets
+summary: Instant 1-line conversions for Discord file size fitting, crisp 2-pass GIFs, Web FastStart, and lossless stream cutting.
+track: 04_presets
+overview: |
+  Flourite includes pre-calculated, battle-tested presets for frequent media conversion tasks.
+  These presets encapsulate the complex mathematical calculations and multi-pass filtergraphs
+  required for professional-grade video encoding.
+related_sources:
+  - "src/flourite/presets/discord.cr"
+  - "src/flourite/presets/gif.cr"
+  - "src/flourite/presets/web.cr"
+  - "src/flourite/presets/trim.cr"
+sections:
+  - id: discord_budgeting
+    title: Discord File Size Optimization
+    summary: Guaranteeing uploads fit under Discord limits without rejection.
+    content: |
+      Discord rejects attachments exceeding upload limits (10MB, 25MB, or 50MB).
+      Flourite's Discord preset queries duration via `ffprobe`, allocates total bits across video and audio,
+      and transcodes the video to guarantee it fits under the limit with maximal visual fidelity:
+      ```crystal
+      Flourite::Presets::Discord.convert("long_recording.mp4", "discord_upload.mp4", target_mb: 25.0)
+      ```
+  - id: crisp_gif
+    title: 2-Pass Palette GIF Generation
+    summary: Generating high-definition GIFs with custom color palettes.
+    content: |
+      Standard GIF converters generate blurry, dithered artifacts.
+      Flourite uses a 2-pass filtergraph generating a full 256-color palette with Lanczos scaling:
+      ```crystal
+      Flourite::Presets::Gif.convert("screen_record.mov", "demo.gif", fps: 15, width: 480)
+      ```
+  - id: lossless_cut
+    title: Instant Lossless Trimming
+    summary: Cutting clips in milliseconds with stream copy (-c copy).
+    content: |
+      Cut any section of video without re-encoding:
+      ```crystal
+      Flourite::Presets::Trim.cut("movie.mp4", "clip.mp4", from: "00:01:30", to: "00:02:15")
+      ```

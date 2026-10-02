@@ -1,0 +1,23 @@
+namespace: "Flourite::Docs"
+source_dir: "docs_src"
+output_dir: "src/flourite/docs"
+master_file: "src/flourite/docs.cr"
+
+features:
+  release_guard: true
+  naming_style: "prefixed"
+  prefix_format: "topic_%02d_"
+  table_auto_html: true
+  protect_summary: true
+  summary_table: true
+  master_index: true
+  aliases:
+    - "FlouriteDocs"
+  quick_start:
+    title: "Flourite FFMPEG Toolkit Commands"
+    commands:
+      - "flourite tui"
+      - "flourite probe video.mp4"
+      - "flourite discord video.mp4 --limit 25MB"
+      - "flourite gif animation.mov --fps 15 --width 480"
+      - "flourite wizard"

@@ -1,0 +1,39 @@
+id: TUI_STUDIO
+title: Interactive Terminal Studio and Wizard
+summary: Using the Opal full-screen reactive TUI and interactive CLI wizard for transcoding.
+track: 05_tui
+overview: |
+  Flourite integrates `sol-vin/opal` to deliver a terminal user experience inspired by professional video editing suites.
+  Users can navigate local media, inspect tracks and metadata, preview generated commands, and track real-time
+  encoding metrics with smooth progress bars and live logs.
+related_sources:
+  - "src/flourite/tui/app.cr"
+  - "src/flourite/cli.cr"
+sections:
+  - id: full_screen_tui
+    title: Launching the Studio
+    summary: Running the full-screen Opal terminal workspace.
+    content: |
+      Start the interactive TUI workspace:
+      ```bash
+      flourite tui
+      # or simply:
+      flourite
+      ```
+      Keybindings:
+      - `Tab`: Cycle between Media Files, Presets, and Streaming Logs.
+      - `↑` / `↓`: Navigate items in active pane.
+      - `Enter`: Start transcoding selected file with active preset.
+      - `C`: Copy the exact generated FFmpeg command to system clipboard.
+      - `R`: Refresh file list in current directory.
+      - `Q`: Quit.
+  - id: interactive_wizard
+    title: Step-by-Step CLI Wizard
+    summary: Prompt-driven conversion wizard.
+    content: |
+      If you prefer an interactive questionnaire without entering full-screen mode:
+      ```bash
+      flourite wizard
+      ```
+      This wizard guides you through selecting files, choosing goals, setting destination paths,
+      and confirming before running.

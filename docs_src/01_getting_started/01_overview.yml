@@ -1,0 +1,47 @@
+id: GETTING_STARTED
+title: Getting Started with Flourite
+summary: Introduction to Flourite modern FFMPEG library, fluent DSL, streaming runner, and interactive Opal TUI.
+track: 01_getting_started
+overview: |
+  Flourite is a next-generation Crystal library and developer studio for FFMPEG.
+  It transforms complex, cryptic FFmpeg command strings into expressive, type-safe, and self-documenting Crystal code.
+  Flourite includes deep media probing via `ffprobe`, a microsecond-accurate streaming progress runner, smart presets
+  for Discord video budgeting and high-definition GIFs, and a full-screen reactive terminal UI powered by Opal.
+related_sources:
+  - "src/flourite.cr"
+  - "src/flourite/config.cr"
+  - "src/flourite/cli.cr"
+sections:
+  - id: installation
+    title: Installation
+    summary: Adding Flourite to your Crystal shard.yml.
+    content: |
+      Add `flourite` to your project's `shard.yml`:
+      ```yaml
+      dependencies:
+        flourite:
+          github: sol-vin/flourite
+          branch: main
+      ```
+      Then install dependencies:
+      ```bash
+      shards install
+      ```
+  - id: quickstart
+    title: Quickstart Example
+    summary: Converting media with real-time progress callbacks.
+    content: |
+      Convert any media file with a single call and live terminal progress:
+      ```crystal
+      require "flourite"
+
+      Flourite.convert("input.mov")
+        .to("output.mp4")
+        .video_codec(:h264)
+        .crf(22)
+        .scale(1280, 720)
+        .audio_codec(:aac)
+        .run do |p|
+          puts "#{p.bar} | #{p.speed_formatted} | ETA: #{p.eta_formatted}"
+        end
+      ```
