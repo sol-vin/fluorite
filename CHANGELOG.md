@@ -1,5 +1,10 @@
 # FLUORITE CHANGELOG
+## [0.1.6] - 2026-10-02
+---
 ## [0.1.5] - 2026-10-02
+### 📚 Documentation
+- • Add automated GitHub Pages documentation site publishing workflow
+
 ---
 ## [0.1.4] - 2026-10-02
 ### 🛠️ Chores & Tooling

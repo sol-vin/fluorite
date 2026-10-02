@@ -22,10 +22,18 @@ settings:
       title: "\U0001F6E0️ Chores & Tooling"
       bullet: •
 releases:
-- version: 0.1.5
+- version: 0.1.6
   date: "2026-10-02"
   status: active
   entries: []
+- version: 0.1.5
+  date: "2026-10-02"
+  status: released
+  entries:
+  - type: docs
+    description: Add automated GitHub Pages documentation site publishing workflow
+    bullet: •
+    author: Ian Rash
 - version: 0.1.4
   date: "2026-10-02"
   status: released

@@ -4,6 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TUI: Opal](https://img.shields.io/badge/TUI-Opal-magenta.svg)](https://github.com/sol-vin/opal)
 [![Docs: Jasper](https://img.shields.io/badge/Docs-Jasper-blue.svg)](https://github.com/sol-vin/jasper)
+[![Pages: Docs](https://img.shields.io/badge/docs-GitHub_Pages-555555.svg?logo=github)](https://sol-vin.github.io/fluorite/)
 [![Version: Carbon](https://img.shields.io/badge/Version-Carbon-green.svg)](https://github.com/sol-vin/carbon)
 
 > **Next-generation FFMPEG bindings, fluent Crystal DSL, asynchronous streaming process wrapper, smart conversion presets, and full-screen Opal terminal UI.**
@@ -196,7 +197,10 @@ fluorite audio podcast.mp4 --format opus -o podcast.opus
 
 ---
 
-## 📚 Documentation (Jasper)
+## 📚 Documentation (Jasper & GitHub Pages)
+
+Interactive API documentation and guides are published automatically to GitHub Pages at:
+👉 **[https://sol-vin.github.io/fluorite/](https://sol-vin.github.io/fluorite/)**
 
 Fluorite's documentation is compiled via `sol-vin/jasper`:
 
