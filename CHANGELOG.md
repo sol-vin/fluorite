@@ -1,7 +1,15 @@
 # FLOURITE CHANGELOG
+## [0.1.3] - 2026-10-01
+### 🛠️ Chores & Tooling
+- • Initial commit: Flourite FFMPEG library, fluent DSL, streaming wrapper, smart presets, and Opal TUI (`f1abe40`)
+- • add GitHub Actions workflow and format code (`df912e1`)
+
+---
 ## [0.1.2] - 2026-10-01
 ### 🛠️ Chores & Tooling
 - • Initial commit: Flourite FFMPEG library, fluent DSL, streaming wrapper, smart presets, and Opal TUI (`f1abe40`)
+- • add GitHub Actions workflow and format code (`df912e1`)
+- • add multi-platform release and asset publishing workflow
 
 ---
 ## [0.1.1] - 2026-10-01

@@ -1,0 +1,226 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Release Tag Name (e.g. v0.1.2)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  init-release:
+    name: Initialize Release Metadata
+    runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.meta.outputs.tag_name }}
+      version: ${{ steps.meta.outputs.version }}
+      release_title: ${{ steps.meta.outputs.release_title }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute Release Metadata
+        id: meta
+        shell: bash
+        run: |
+          SHARD_VER=$(awk '/^version:/ {print $2}' shard.yml 2>/dev/null | tr -d ' "\r\n')
+          if [ -z "$SHARD_VER" ]; then SHARD_VER="0.1.2"; fi
+          echo "version=$SHARD_VER" >> "$GITHUB_OUTPUT"
+
+          INPUT_TAG="${{ github.event.inputs.tag_name }}"
+          REF_TYPE="${{ github.ref_type }}"
+          REF_NAME="${{ github.ref_name }}"
+
+          if [ -n "$INPUT_TAG" ]; then
+            TAG="$INPUT_TAG"
+          elif [ "$REF_TYPE" = "tag" ]; then
+            TAG="$REF_NAME"
+          else
+            TAG="v$SHARD_VER"
+          fi
+
+          echo "tag_name=$TAG" >> "$GITHUB_OUTPUT"
+          echo "release_title=Flourite $TAG" >> "$GITHUB_OUTPUT"
+          echo "Resolved Tag: $TAG"
+          echo "Resolved Shard Version: $SHARD_VER"
+
+  build-binaries:
+    name: Build Binary (${{ matrix.target }})
+    needs: [init-release]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: linux-x86_64
+            os: ubuntu-latest
+            archive_name: flourite-linux-x86_64.tar.gz
+            is_windows: false
+          - target: windows-x86_64
+            os: windows-latest
+            archive_name: flourite-windows-x86_64.zip
+            is_windows: true
+          - target: darwin-arm64
+            os: macos-latest
+            archive_name: flourite-darwin-arm64.tar.gz
+            is_windows: false
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+
+      - name: Build & Package (Unix)
+        if: ${{ !matrix.is_windows }}
+        shell: bash
+        run: |
+          shards install --ignore-crystal-version
+          mkdir -p bin stage
+          crystal build src/flourite_cli.cr -o bin/flourite --release --no-debug
+          chmod +x bin/flourite
+          cp bin/flourite stage/
+          cp README.md LICENSE stage/
+          tar -czf ${{ matrix.archive_name }} -C stage .
+          ls -lh ${{ matrix.archive_name }}
+
+      - name: Build & Package (Windows)
+        if: ${{ matrix.is_windows }}
+        shell: pwsh
+        run: |
+          shards install --ignore-crystal-version
+          New-Item -ItemType Directory -Path "bin", "stage" -Force
+          crystal build src/flourite_cli.cr -o bin/flourite.exe --release --no-debug
+          Copy-Item bin/flourite.exe, README.md, LICENSE -Destination stage
+          Compress-Archive -Path "stage/*" -DestinationPath ${{ matrix.archive_name }} -Force
+          Get-Item ${{ matrix.archive_name }} | Select-Object Name, Length
+
+      - name: Upload Binary Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bin-${{ matrix.target }}
+          path: ${{ matrix.archive_name }}
+          retention-days: 1
+
+  publish-release:
+    name: Publish Release & Assets
+    needs: [init-release, build-binaries]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Download Built Binaries
+        uses: actions/download-artifact@v4
+        with:
+          pattern: bin-*
+          path: dist
+          merge-multiple: true
+
+      - name: Generate Checksums & Release Notes
+        shell: bash
+        run: |
+          cd dist
+          sha256sum * > checksums.txt
+          cat checksums.txt
+          cd ..
+
+          TAG="${{ needs.init-release.outputs.tag_name }}"
+          VER="${{ needs.init-release.outputs.version }}"
+
+          cat << 'EOF' > release_body.md
+          ## 🎬 Flourite __TAG__
+
+          Modern, high-performance **FFmpeg** bindings, fluent DSL, real-time streaming process wrapper, smart conversion presets, and full-screen terminal UI (TUI) for Crystal.
+
+          ### 📦 Downloadable Assets
+
+          | Platform | Architecture | Archive | Format |
+          | :--- | :--- | :--- | :--- |
+          | 🐧 **Linux** | `x86_64` | `flourite-linux-x86_64.tar.gz` | `.tar.gz` |
+          | 🪟 **Windows** | `x86_64` | `flourite-windows-x86_64.zip` | `.zip` |
+          | 🍎 **macOS** | `Apple Silicon (arm64)` | `flourite-darwin-arm64.tar.gz` | `.tar.gz` |
+          | 🔒 **Integrity** | All | `checksums.txt` | SHA-256 |
+
+          ### 🚀 Quick Start
+
+          ```bash
+          # Verify installation & detected hardware acceleration (NVENC, QSV, AMF)
+          flourite version
+
+          # Launch interactive terminal UI (media browser, inspector & transcoder)
+          flourite tui
+
+          # Interactive conversion wizard
+          flourite wizard
+
+          # Direct command-line conversion presets
+          flourite discord input.mp4 -o shared.mp4
+          flourite gif recording.mov -o animated.gif --fps 24 --scale 640:-1
+          flourite web capture.mkv -o stream.mp4
+          flourite audio podcast.wav -o podcast.mp3 -b 320k
+          flourite trim video.mp4 -s 00:00:10 -t 00:00:30 -o clip.mp4
+          ```
+
+          ### 🔒 Checksums (SHA-256)
+          ```text
+          EOF
+
+          sed -i "s/__TAG__/$TAG/g" release_body.md
+          cat dist/checksums.txt >> release_body.md
+
+          cat << 'EOF' >> release_body.md
+          ```
+
+          ---
+          *Built and packaged automatically with Crystal & GitHub Actions.*
+          EOF
+
+      - name: Create or Update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.init-release.outputs.tag_name }}
+          name: ${{ needs.init-release.outputs.release_title }}
+          body_path: release_body.md
+          files: dist/*
+          draft: false
+          prerelease: false
+          make_latest: true
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish Step Summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -n "$GITHUB_STEP_SUMMARY" ]; then
+            echo "## 🚀 Flourite ${{ needs.init-release.outputs.tag_name }} Release Published" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "### 📦 Release Assets" >> "$GITHUB_STEP_SUMMARY"
+            echo "| Asset Name | Size | SHA-256 |" >> "$GITHUB_STEP_SUMMARY"
+            echo "| :--- | :--- | :--- |" >> "$GITHUB_STEP_SUMMARY"
+            if [ -d "dist" ]; then
+              for f in dist/*; do
+                fname=$(basename "$f")
+                fsize=$(ls -lh "$f" | awk '{print $5}')
+                fhash=$(sha256sum "$f" | awk '{print $1}')
+                echo "| \`$fname\` | $fsize | \`$fhash\` |" >> "$GITHUB_STEP_SUMMARY"
+              done
+            fi
+          fi

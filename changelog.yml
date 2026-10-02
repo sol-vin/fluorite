@@ -22,7 +22,7 @@ settings:
       title: "\U0001F6E0️ Chores & Tooling"
       bullet: •
 releases:
-- version: 0.1.2
+- version: 0.1.3
   date: "2026-10-01"
   status: active
   entries:
@@ -31,6 +31,30 @@ releases:
       smart presets, and Opal TUI'
     bullet: •
     hash: f1abe40
+    author: Ian Rash
+  - type: ci
+    description: add GitHub Actions workflow and format code
+    bullet: •
+    hash: df912e1
+    author: Ian Rash
+- version: 0.1.2
+  date: "2026-10-01"
+  status: released
+  entries:
+  - type: other
+    description: 'Initial commit: Flourite FFMPEG library, fluent DSL, streaming wrapper,
+      smart presets, and Opal TUI'
+    bullet: •
+    hash: f1abe40
+    author: Ian Rash
+  - type: ci
+    description: add GitHub Actions workflow and format code
+    bullet: •
+    hash: df912e1
+    author: Ian Rash
+  - type: ci
+    description: add multi-platform release and asset publishing workflow
+    bullet: •
     author: Ian Rash
 - version: 0.1.1
   date: "2026-10-01"
