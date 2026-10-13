@@ -30,6 +30,7 @@ module Fluorite
         {"Discord (10MB)", "Strictly fits under Discord free attachment limit"},
         {"Web MP4 (FastStart)", "H.264 + AAC with moov atom up front for instant streaming"},
         {"High-Definition GIF", "2-pass palettegen + paletteuse with Lanczos scaling"},
+        {"Sprite Sheet (CLUT8)", "Packs frames into 256-color indexed atlas with 75% VRAM savings"},
         {"Extract Audio (MP3)", "Direct 320kbps MP3 extraction without video"},
         {"Extract Audio (Opus)", "High-efficiency 160kbps Opus extraction"},
         {"Lossless Fast Trim", "Instant stream-copy cut in milliseconds without re-encoding"},
@@ -120,6 +121,9 @@ module Fluorite
         when "High-Definition GIF"
           out_file = "#{base_name}.gif"
           @generated_cmd = Presets::Gif.build_command(file, out_file).to_cmd_string
+        when "Sprite Sheet (CLUT8)"
+          out_file = "#{base_name}_sheet.png"
+          @generated_cmd = Presets::SpriteSheet.build_command(file, out_file).to_cmd_string
         when "Extract Audio (MP3)"
           out_file = "#{base_name}.mp3"
           @generated_cmd = Presets::Audio.build_command(file, out_file, format: :mp3).to_cmd_string
@@ -163,6 +167,8 @@ module Fluorite
                   Presets::Web.build_command(file, "#{base_name}_web.mp4")
                 when "High-Definition GIF"
                   Presets::Gif.build_command(file, "#{base_name}.gif")
+                when "Sprite Sheet (CLUT8)"
+                  Presets::SpriteSheet.build_command(file, "#{base_name}_sheet.png")
                 when "Extract Audio (MP3)"
                   Presets::Audio.build_command(file, "#{base_name}.mp3", format: :mp3)
                 when "Extract Audio (Opus)"

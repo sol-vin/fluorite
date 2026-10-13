@@ -20,6 +20,7 @@ Fluorite turns complex, arcane `ffmpeg` and `ffprobe` command strings into elega
 - **Smart UX Presets**:
   - **Discord Bit Budgeting**: Automatically measures media duration, calculates total bit allocation ($V + A$), and transcodes video guaranteed to fit under Discord's 10MB/25MB/50MB limits!
   - **Crisp 2-Pass GIF**: Generates optimum 256-color palettes with Lanczos scaling for non-dithered high-definition GIFs.
+  - **Automated Sprite Sheet Compression Pipeline**: Packs animation clips into power-of-two texture atlases with CLUT8/CLUT4 indexed palettes (up to 87.5% VRAM reduction), JSON/YAML UV manifests, and deterministic Godot 4.8 `.import` sidecars.
   - **Web FastStart**: Optimizes MP4 containers for instant browser playback by moving the `moov` atom up front.
   - **Instant Stream Copy Trim**: Lossless cutting in milliseconds (`-c copy`) without re-encoding.
   - **Audio Extraction**: Direct conversion to MP3 (VBR/CBR), Opus, AAC, or lossless FLAC.
@@ -138,13 +139,28 @@ Fluorite::Presets::Discord.convert("long_recording.mp4", "discord_upload.mp4", t
 # 2. High-Quality 2-Pass Palette GIF
 Fluorite::Presets::Gif.convert("clip.mov", "preview.gif", fps: 15, width: 480)
 
-# 3. Web-Optimized FastStart MP4
+# 3. Automated Sprite Sheet Compression Pipeline (CLUT8 / POT / Godot 4.8)
+sheet = Fluorite.spritesheet do
+  input "knight_walk.mp4"
+  output "knight_sheet.png"
+  frame_size 64, 64
+  frames 16
+  fps 12
+  power_of_two!
+  clut8! dither: :sierra2_4a
+  pixel_art!
+  metadata "knight_sheet.json"
+  godot_import!
+end
+sheet.run
+
+# 4. Web-Optimized FastStart MP4
 Fluorite::Presets::Web.convert("source.avi", "streamable.mp4")
 
-# 4. Extract High-Quality Audio
+# 5. Extract High-Quality Audio
 Fluorite::Presets::Audio.extract("concert.mkv", "track.mp3", format: :mp3, bitrate: "320k")
 
-# 5. Millisecond Stream-Copy Trim (no re-encoding!)
+# 6. Millisecond Stream-Copy Trim (no re-encoding!)
 Fluorite::Presets::Trim.cut("movie.mp4", "clip.mp4", from: "00:01:30", to: "00:02:15")
 ```
 
@@ -162,7 +178,7 @@ fluorite tui
 ### TUI Highlights:
 - **File Browser**: Browse media files in the workspace with audio/video extension filtering.
 - **Inspector Panel**: Dynamic cards detailing container format, codecs, resolution, bitrate, and streams.
-- **Conversion Presets**: 1-click presets for Discord, Web MP4, GIF, Audio extraction, and AV1.
+- **Conversion Presets**: 1-click presets for Discord, Web MP4, GIF, Sprite Sheet (CLUT8), Audio extraction, and Fast Trim.
 - **Live Transcode Monitor**: Real-time Opal progress gauge, digital speed & FPS telemetry, dynamic ETA countdown, FPS sparkline chart, and scrolling log viewer.
 - **Command Preview**: Press `C` anywhere to inspect and copy the exact generated `ffmpeg` command line.
 
@@ -187,6 +203,9 @@ fluorite discord video.mp4 --limit 25MB
 
 # Convert to crisp high-definition GIF
 fluorite gif animation.mov --fps 15 --width 480
+
+# Pack animation into compressed CLUT8 sprite sheet with UV manifest & Godot .import
+fluorite spritesheet animation.mov --size 64x64 --frames 16 --format clut8 --pot --meta sheet.json --godot-import
 
 # Ultra-fast lossless cut
 fluorite trim video.mp4 --from 00:01:00 --to 00:01:45 -o clip.mp4

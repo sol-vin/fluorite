@@ -35,8 +35,13 @@
         #       <td>Generating high-definition GIFs with custom color palettes.</td>
         #     </tr>
         #     <tr>
+        #       <td><strong>Automated Sprite Sheet Compression Pipeline</strong></td>
+        #       <td><code>.topic_03_sprite_sheet_compression</code></td>
+        #       <td>Packing animation frames into power-of-two texture atlases with CLUT8/CLUT4 palette quantization.</td>
+        #     </tr>
+        #     <tr>
         #       <td><strong>Instant Lossless Trimming</strong></td>
-        #       <td><code>.topic_03_lossless_cut</code></td>
+        #       <td><code>.topic_04_lossless_cut</code></td>
         #       <td>Cutting clips in milliseconds with stream copy (-c copy).</td>
         #     </tr>
         #   </tbody>
@@ -45,6 +50,7 @@
         # ### Related Guides & Source References
         # - src/fluorite/presets/discord.cr
         # - src/fluorite/presets/gif.cr
+        # - src/fluorite/presets/sprite_sheet.cr
         # - src/fluorite/presets/web.cr
         # - src/fluorite/presets/trim.cr
         #
@@ -70,6 +76,27 @@
           #
           def self.topic_02_crisp_gif : Nil; end
 
+          # **Automated Sprite Sheet Compression Pipeline**: Packing animation frames into power-of-two texture atlases with CLUT8/CLUT4 palette quantization.
+          #
+          # Fluorite provides a Two-Tier Sprite Sheet Compression Pipeline (`Fluorite::SpriteSheet`) for Godot 4.8 and PS2 GS (CLUT8/CLUT4) workflows:
+          # ```
+          # sheet = Fluorite.spritesheet do
+          #   input "knight_walk.mp4"
+          #   output "knight_sheet.png"
+          #   frame_size 64, 64
+          #   frames 16
+          #   fps 12
+          #   power_of_two!
+          #   clut8! dither: :sierra2_4a
+          #   pixel_art!
+          #   metadata "knight_sheet.json"
+          #   godot_import!
+          # end
+          # sheet.run
+          # ```
+          #
+          def self.topic_03_sprite_sheet_compression : Nil; end
+
           # **Instant Lossless Trimming**: Cutting clips in milliseconds with stream copy (-c copy).
           #
           # Cut any section of video without re-encoding:
@@ -77,7 +104,7 @@
           # Fluorite::Presets::Trim.cut("movie.mp4", "clip.mp4", from: "00:01:30", to: "00:02:15")
           # ```
           #
-          def self.topic_03_lossless_cut : Nil; end
+          def self.topic_04_lossless_cut : Nil; end
         end
       end
     end
