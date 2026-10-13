@@ -45,4 +45,21 @@ describe Fluorite::Presets do
     args.should contain("-c:v")
     args.should contain("copy")
   end
+
+  it "builds SpriteSheet preset command and plan correctly" do
+    cmd = Fluorite::Presets::SpriteSheet.build_command(
+      "character.mp4",
+      "character_sheet.png",
+      frame_width: 32,
+      frame_height: 32,
+      frames: 16,
+      fps: 12,
+      format: :clut8
+    )
+    args = cmd.to_args
+    args.should contain("-filter_complex")
+    args.should contain("-frames:v")
+    args.should contain("1")
+    args.should contain("character_sheet.png")
+  end
 end

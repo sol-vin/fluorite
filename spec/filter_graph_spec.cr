@@ -38,4 +38,19 @@ describe Fluorite::DSL::FilterGraph do
     args[1].should contain("palettegen")
     args[1].should contain("paletteuse")
   end
+
+  it "builds tile and palette_spritesheet filters" do
+    fg = Fluorite::DSL::FilterGraph.new
+    fg.tile(4, 4, nb_frames: 16, padding: 2)
+    args = fg.to_args
+    args.should contain("-vf")
+    args[1].should contain("tile=layout=4x4:nb_frames=16:padding=2")
+
+    fg2 = Fluorite::DSL::FilterGraph.new
+    fg2.palette_spritesheet(4, 4, frame_width: 64, frame_height: 64, max_colors: 256)
+    args2 = fg2.to_args
+    args2.should contain("-filter_complex")
+    args2[1].should contain("tile=layout=4x4:nb_frames=16")
+    args2[1].should contain("palettegen=max_colors=256")
+  end
 end

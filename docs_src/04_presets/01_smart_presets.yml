@@ -9,6 +9,7 @@ overview: |
 related_sources:
   - "src/fluorite/presets/discord.cr"
   - "src/fluorite/presets/gif.cr"
+  - "src/fluorite/presets/sprite_sheet.cr"
   - "src/fluorite/presets/web.cr"
   - "src/fluorite/presets/trim.cr"
 sections:
@@ -30,6 +31,26 @@ sections:
       Fluorite uses a 2-pass filtergraph generating a full 256-color palette with Lanczos scaling:
       ```crystal
       Fluorite::Presets::Gif.convert("screen_record.mov", "demo.gif", fps: 15, width: 480)
+      ```
+  - id: sprite_sheet_compression
+    title: Automated Sprite Sheet Compression Pipeline
+    summary: Packing animation frames into power-of-two texture atlases with CLUT8/CLUT4 palette quantization.
+    content: |
+      Fluorite provides a Two-Tier Sprite Sheet Compression Pipeline (`Fluorite::SpriteSheet`) for Godot 4.8 and PS2 GS (CLUT8/CLUT4) workflows:
+      ```crystal
+      sheet = Fluorite.spritesheet do
+        input "knight_walk.mp4"
+        output "knight_sheet.png"
+        frame_size 64, 64
+        frames 16
+        fps 12
+        power_of_two!
+        clut8! dither: :sierra2_4a
+        pixel_art!
+        metadata "knight_sheet.json"
+        godot_import!
+      end
+      sheet.run
       ```
   - id: lossless_cut
     title: Instant Lossless Trimming

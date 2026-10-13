@@ -2,6 +2,7 @@
 settings:
   title: FLUORITE CHANGELOG
   output_file: CHANGELOG.md
+  auto_link_github: true
   categories:
     breaking:
       title: "\U0001F4A5 Breaking Changes"
@@ -22,9 +23,23 @@ settings:
       title: "\U0001F6E0️ Chores & Tooling"
       bullet: •
 releases:
+- version: 0.1.7
+  date: "2026-10-13"
+  status: active
+  entries:
+  - type: feat
+    description: "Implement Two-Tier Automated Sprite Sheet Compression Pipeline (`Fluorite::SpriteSheet`) with CLUT8/CLUT4 palette quantization, POT padding, UV manifests, and Godot 4.8 `.import` sidecars (WO-023)"
+    bullet: ✦
+    badge: "[SPRITESHEET]"
+    author: "Eta (Η)"
+  - type: docs
+    description: add GitHub Pages documentation publishing workflow
+    bullet: "\U0001F4D6"
+    hash: 53c5a35
+    author: Ian Rash
 - version: 0.1.6
   date: "2026-10-02"
-  status: active
+  status: released
   entries: []
 - version: 0.1.5
   date: "2026-10-02"

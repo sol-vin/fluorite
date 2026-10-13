@@ -112,6 +112,50 @@ module Fluorite
         self
       end
 
+      # Video filter: tile (packs animation frames into a cols x rows sprite sheet grid)
+      def tile(
+        columns : Int32,
+        rows : Int32,
+        nb_frames : Int32? = nil,
+        padding : Int32 = 0,
+        margin : Int32 = 0,
+        color : String = "0x00000000",
+      ) : self
+        frames_count = nb_frames || (columns * rows)
+        parts = ["layout=#{columns}x#{rows}", "nb_frames=#{frames_count}"]
+        parts << "padding=#{padding}" if padding > 0
+        parts << "margin=#{margin}" if margin > 0
+        parts << "color=#{color}" unless color.empty?
+        @video_filters << "tile=#{parts.join(':')}"
+        self
+      end
+
+      # 2-pass palette generation & usage for indexed CLUT8/CLUT4 sprite sheets
+      def palette_spritesheet(
+        columns : Int32,
+        rows : Int32,
+        frame_width : Int32 = 64,
+        frame_height : Int32 = 64,
+        fps_val : Float64 | Int32 = 12,
+        nb_frames : Int32? = nil,
+        max_colors : Int32 = 256,
+        dither : String = "sierra2_4a",
+        scale_flags : String = "neighbor",
+        padding : Int32 = 0,
+        margin : Int32 = 0,
+        color : String = "0x00000000",
+        reserve_transparent : Bool = true,
+      ) : self
+        frames_count = nb_frames || (columns * rows)
+        tile_parts = ["layout=#{columns}x#{rows}", "nb_frames=#{frames_count}"]
+        tile_parts << "padding=#{padding}" if padding > 0
+        tile_parts << "margin=#{margin}" if margin > 0
+        tile_parts << "color=#{color}" unless color.empty?
+        reserve = reserve_transparent ? "1" : "0"
+        @complex_filters << "[0:v]fps=#{fps_val},scale=#{frame_width}:#{frame_height}:flags=#{scale_flags},tile=#{tile_parts.join(':')},split[s0][s1];[s0]palettegen=max_colors=#{max_colors}:reserve_transparent=#{reserve}:stats_mode=full[p];[s1][p]paletteuse=dither=#{dither}"
+        self
+      end
+
       # Adds raw video filter expression
       def vf(filter_str : String) : self
         @video_filters << filter_str

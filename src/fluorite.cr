@@ -16,6 +16,9 @@ require "./fluorite/presets/gif"
 require "./fluorite/presets/web"
 require "./fluorite/presets/audio"
 require "./fluorite/presets/trim"
+require "./fluorite/sprite_sheet/core/pipeline"
+require "./fluorite/sprite_sheet/dsl/sprite_sheet_builder"
+require "./fluorite/presets/sprite_sheet"
 require "./fluorite/batch"
 require "./fluorite/c/libav"
 require "./fluorite/docs"
@@ -73,5 +76,19 @@ module Fluorite
 
   def self.web(input : String, output : String) : Process::Status
     Presets::Web.convert(input, output)
+  end
+
+  # Declarative block DSL for automated Sprite Sheet packing and compression
+  def self.spritesheet(&) : SpriteSheet::DSL::SpriteSheetBuilder
+    builder = SpriteSheet::DSL::SpriteSheetBuilder.new
+    with builder yield builder
+    builder
+  end
+
+  # Fluent chainable Sprite Sheet builder starting from an input path
+  def self.spritesheet(input_path : String) : SpriteSheet::DSL::SpriteSheetBuilder
+    builder = SpriteSheet::DSL::SpriteSheetBuilder.new
+    builder.input(input_path)
+    builder
   end
 end

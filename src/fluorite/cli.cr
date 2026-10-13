@@ -26,6 +26,8 @@ module Fluorite
         run_discord(sub_args)
       when "gif"
         run_gif(sub_args)
+      when "spritesheet", "sprite", "atlas"
+        run_spritesheet(sub_args)
       when "trim", "cut"
         run_trim(sub_args)
       when "audio", "sound"
@@ -200,6 +202,103 @@ module Fluorite
       elapsed = (Time.instant - start_time).total_seconds
       puts
       puts Opal.style.bold.fg(:green).render("✓ Created #{out_file} (#{human_file_size(out_file)}) in #{elapsed.round(1)}s!")
+    end
+
+    def self.run_spritesheet(args : Array(String)) : Nil
+      fps = 12.0
+      frame_w = 64
+      frame_h = 64
+      frames = 16
+      cols : Int32? = nil
+      rows : Int32? = nil
+      padding = 0
+      margin = 0
+      pot = false
+      format = "clut8"
+      dither = "sierra2_4a"
+      scale_flags = "nearest"
+      output_file : String? = nil
+      meta_file : String? = nil
+      godot_import = false
+      seek : String? = nil
+      duration : String? = nil
+
+      parser = OptionParser.new do |opts|
+        opts.banner = "Usage: fluorite spritesheet <input_file> [options]"
+        opts.on("--size WxH", "Frame size in pixels (default: 64x64)") do |s|
+          parts = s.downcase.split('x')
+          if parts.size == 2
+            frame_w = parts[0].to_i? || 64
+            frame_h = parts[1].to_i? || 64
+          end
+        end
+        opts.on("--frames N", "Total animation frames to pack (default: 16)") { |n| frames = n.to_i? || 16 }
+        opts.on("--fps FPS", "Sampling frame rate (default: 12)") { |f| fps = f.to_f64? || 12.0 }
+        opts.on("--cols C", "Fixed column count") { |c| cols = c.to_i? }
+        opts.on("--rows R", "Fixed row count") { |r| rows = r.to_i? }
+        opts.on("--padding PX", "Pixel padding between frames (default: 0)") { |p| padding = p.to_i? || 0 }
+        opts.on("--margin PX", "Outer atlas border margin (default: 0)") { |m| margin = m.to_i? || 0 }
+        opts.on("--pot", "Pad output atlas dimensions to next Power-of-Two") { pot = true }
+        opts.on("--format FMT", "Compression format: clut8, clut4, rgba32, rgb565, webp (default: clut8)") { |f| format = f }
+        opts.on("--dither ALGO", "Palette dithering: sierra2_4a, bayer, floyd_steinberg, none") { |d| dither = d }
+        opts.on("--filter FLAGS", "Scaling filter: nearest, lanczos, bilinear, bicubic") { |fl| scale_flags = fl }
+        opts.on("--meta FILE", "Export JSON/YAML frame coordinates & UV manifest") { |m| meta_file = m }
+        opts.on("--godot-import", "Generate deterministic Godot 4.8 .import sidecar") { godot_import = true }
+        opts.on("--seek TIME", "Start timestamp (HH:MM:SS)") { |s| seek = s }
+        opts.on("--duration TIME", "Clip duration (HH:MM:SS or seconds)") { |d| duration = d }
+        opts.on("-o FILE", "--output FILE", "Output sprite sheet path") { |o| output_file = o }
+        opts.on("-h", "--help", "Show help") { puts opts; exit 0 }
+      end
+      parser.parse(args)
+
+      input_file = args.first?
+      unless input_file
+        puts Opal.style.bold.fg(:red).render("Error: No input file specified.")
+        exit 1
+      end
+
+      in_file = input_file.not_nil!
+      ext = format.downcase == "webp" ? ".webp" : ".png"
+      out_file = (output_file || "#{File.basename(in_file, File.extname(in_file))}_sheet#{ext}").as(String)
+      import_path = godot_import ? "#{out_file}.import" : nil
+
+      plan = Presets::SpriteSheet.build_plan(
+        in_file, out_file,
+        frame_width: frame_w, frame_height: frame_h,
+        frames: frames, fps: fps,
+        columns: cols, rows: rows,
+        padding: padding, margin: margin,
+        power_of_two: pot, format: format,
+        dither: dither, scale_flags: scale_flags,
+        metadata_path: meta_file, godot_import_path: import_path,
+        seek: seek, duration: duration
+      )
+
+      puts Opal.style.bold.fg(:magenta).render("\n=== Fluorite Automated Sprite Sheet Pipeline ===")
+      puts "Input:     #{in_file}"
+      puts "Output:    #{out_file} (#{plan.format.upcase})"
+      puts "Grid:      #{plan.columns}x#{plan.rows} (#{plan.frame_count} frames @ #{plan.frame_width}x#{plan.frame_height}px)"
+      puts "Atlas:     #{plan.atlas_width}x#{plan.atlas_height}px#{plan.power_of_two ? " [POT]" : ""}"
+      puts "VRAM Est:  #{plan.metrics.total_vram_bytes} B (#{plan.metrics.vram_savings_percent}% savings vs RGBA32)\n"
+
+      start_time = Time.instant
+      Presets::SpriteSheet.convert(
+        in_file, out_file,
+        frame_width: frame_w, frame_height: frame_h,
+        frames: frames, fps: fps,
+        columns: cols, rows: rows,
+        padding: padding, margin: margin,
+        power_of_two: pot, format: format,
+        dither: dither, scale_flags: scale_flags,
+        metadata_path: meta_file, godot_import_path: import_path,
+        seek: seek, duration: duration
+      ) do |p|
+        print "\r#{p.bar(30)} | Speed: #{p.speed_formatted} | FPS: #{p.fps.round(1)} | ETA: #{p.eta_formatted}"
+      end
+
+      elapsed = (Time.instant - start_time).total_seconds
+      puts
+      puts Opal.style.bold.fg(:green).render("✓ Packed #{out_file} (#{human_file_size(out_file)}) in #{elapsed.round(1)}s!")
     end
 
     def self.run_trim(args : Array(String)) : Nil
@@ -453,6 +552,7 @@ USAGE:
   fluorite probe <file>        Inspect media file specs, codecs & streams
   fluorite discord <file>      Auto bit-budget to strictly fit Discord size limits
   fluorite gif <file>          High-definition 2-pass palette GIF generator
+  fluorite spritesheet <file>  Automated 2D sprite sheet packing & CLUT compression
   fluorite trim <file>         Instant lossless stream-copy cut (-c copy)
   fluorite audio <file>        Extract MP3 / Opus / FLAC / AAC audio track
   fluorite convert <in> -o ... Fluent transcode with video/audio parameters
