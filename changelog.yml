@@ -23,10 +23,15 @@ settings:
       title: "\U0001F6E0️ Chores & Tooling"
       bullet: •
 releases:
-- version: 0.1.7
-  date: "2026-10-13"
+- version: 0.1.8
+  date: "2026-10-14"
   status: active
   entries:
+  - type: feat
+    description: "Integrate `Opal.split_pane` into interactive batch transcoding & sprite-sheet packing TUI with `Fluorite::TUI::TelemetryDashboard` and live FFmpeg FPS/bitrate sparklines (WO-060)"
+    bullet: ✦
+    badge: "[TUI]"
+    author: "Eta (Η)"
   - type: feat
     description: "Implement Two-Tier Automated Sprite Sheet Compression Pipeline (`Fluorite::SpriteSheet`) with CLUT8/CLUT4 palette quantization, POT padding, UV manifests, and Godot 4.8 `.import` sidecars (WO-023)"
     bullet: ✦
