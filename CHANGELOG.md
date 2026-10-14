@@ -1,6 +1,7 @@
 # FLUORITE CHANGELOG
-## [0.1.7] - 2026-10-13
+## [0.1.8] - 2026-10-14
 ### ✨ Features & Improvements
+- ✦ **[TUI]** Integrate `Opal.split_pane` into interactive batch transcoding & sprite-sheet packing TUI with `Fluorite::TUI::TelemetryDashboard` and live FFmpeg FPS/bitrate sparklines (WO-060)
 - ✦ **[SPRITESHEET]** Implement Two-Tier Automated Sprite Sheet Compression Pipeline (`Fluorite::SpriteSheet`) with CLUT8/CLUT4 palette quantization, POT padding, UV manifests, and Godot 4.8 `.import` sidecars (WO-023)
 
 ### 📚 Documentation

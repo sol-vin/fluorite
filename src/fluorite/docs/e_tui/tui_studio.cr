@@ -9,9 +9,9 @@
       module E_TUI
         # # Interactive Terminal Studio and Wizard
         #
-        # Fluorite integrates `sol-vin/opal` to deliver a terminal user experience inspired by professional video editing suites.
-        # Users can navigate local media, inspect tracks and metadata, preview generated commands, and track real-time
-        # encoding metrics with smooth progress bars and live logs.
+        # Fluorite integrates `sol-vin/opal` and `Opal.split_pane` to deliver a terminal user experience inspired by professional video editing suites.
+        # Users can navigate local media, inspect tracks and sprite-sheet atlas plans, preview generated commands, manage per-file batch & sprite-sheet packing job queues, and track real-time
+        # encoding metrics with live FPS/bitrate sparklines, smooth progress bars, and streaming logs.
         #
         # ### Executive Summary & Key Topics
         #
@@ -27,7 +27,7 @@
         #     <tr>
         #       <td><strong>Launching the Studio</strong></td>
         #       <td><code>.topic_01_full_screen_tui</code></td>
-        #       <td>Running the full-screen Opal terminal workspace.</td>
+        #       <td>Running the full-screen Opal split-pane terminal workspace.</td>
         #     </tr>
         #     <tr>
         #       <td><strong>Step-by-Step CLI Wizard</strong></td>
@@ -39,10 +39,12 @@
         #
         # ### Related Guides & Source References
         # - src/fluorite/tui/app.cr
+        # - src/fluorite/tui/telemetry_dashboard.cr
+        # - src/fluorite/tui/core/telemetry_engine.cr
         # - src/fluorite/cli.cr
         #
         module TUI_STUDIO
-          # **Launching the Studio**: Running the full-screen Opal terminal workspace.
+          # **Launching the Studio**: Running the full-screen Opal split-pane terminal workspace.
           #
           # Start the interactive TUI workspace:
           # ```bash
@@ -51,9 +53,13 @@
           # fluorite
           # ```
           # Keybindings:
-          # - `Tab`: Cycle between Media Files, Presets, and Streaming Logs.
+          # - `Tab` / `Shift+Tab`: Cycle between Media Files, Presets, Batch/Sprite Job Queue, and Streaming Logs.
           # - `↑` / `↓`: Navigate items in active pane.
-          # - `Enter`: Start transcoding selected file with active preset.
+          # - `A` (`a` / `Shift+A`): Enqueue selected media file (or all files in directory) into the batch/sprite-sheet job queue.
+          # - `X` / `Del`: Remove selected pending job from the queue.
+          # - `B`: Run all pending jobs in the batch & sprite-sheet packing queue.
+          # - `Enter`: Start transcoding selected file with active preset (or run queued batch).
+          # - `[` / `]` & `{` / `}`: Dynamically resize the `Opal.split_pane` workspace and telemetry dividers.
           # - `C`: Copy the exact generated FFmpeg command to system clipboard.
           # - `R`: Refresh file list in current directory.
           # - `Q`: Quit.
